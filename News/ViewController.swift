@@ -1,13 +1,14 @@
 import UIKit
-//"http://newsapi.org/v2/everything?q=bitcoin&from=2020-03-30&sortBy=publishedAt&apiKey=69698df82a724ba9b3979013183abb34"
+//http://newsapi.org/v2/everything?q=bitcoin&from=2020-04-03&sortBy=publishedAt&apiKey=69698df82a724ba9b3979013183abb34
 class ViewController: UIViewController {
-        let urlString = "http://newsapi.org/v2/everything?q=bitcoin&from=2020-03-30&sortBy=publishedAt&apiKey=69698df82a724ba9b3979013183abb34"
+        let urlString = "http://newsapi.org/v2/everything?q=bitcoin&from=2020-04-03&sortBy=publishedAt&apiKey=69698df82a724ba9b3979013183abb34"
         var articles: [Articles] = []
         @IBOutlet weak var tableView: UITableView!
         let cellId = "cell"
         var image = UIImage()
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.isHidden = true
         let back = UIBarButtonItem()
         back.title = ""
         navigationItem.backBarButtonItem = back
@@ -29,6 +30,7 @@ class ViewController: UIViewController {
                 }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.tableView.isHidden = false
             }
         }.resume()
     }
@@ -43,11 +45,13 @@ extension ViewController: UITableViewDataSource{
         let new = articles[indexPath.row]
         cell.titleTextLabel.text = new.title
         cell.dateTextLabel.text = new.publishedAt
+  
         if let urlToImage = new.urlToImage{
-        if let data = try? Data(contentsOf:urlToImage ){
-            var image = UIImage(data: data)
-            cell.newImageView.image = image
-        }}
+            if let data = try? Data(contentsOf:urlToImage ){
+                let image = UIImage(data: data)
+                cell.newImageView.image = image
+        }
+            }
         return cell
     }
 }
@@ -58,9 +62,20 @@ extension ViewController: UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "oneNew") as? OneNewViewController else {return}
-        vc.titleText = articles[indexPath.row].title!
-        vc.imageUrl = "\(articles[indexPath.row].urlToImage!)"
-        vc.contentText = articles[indexPath.row].content!
+        if  let title = articles[indexPath.row].title,
+            let urlToImage = articles[indexPath.row].urlToImage,
+            let content = articles[indexPath.row].content, let url = articles[indexPath.row].url {
+                vc.titleText = title
+                vc.imageUrl = "\(urlToImage)"
+                vc.contentText = content
+                vc.url = "\(url)"
+                vc.author = articles[indexPath.row].author!
+        }
+        if let source = articles[indexPath.row].source{
+            if let sourceName = source.name{
+                vc.source = sourceName
+            }
+        }
         navigationController?.pushViewController(vc, animated: true)
         }
     

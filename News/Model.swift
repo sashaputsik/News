@@ -26,6 +26,7 @@ class Articles: Codable {
     
     required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
+    source = try container.decodeIfPresent(Source.self, forKey: .source)
     author = try container.decodeIfPresent(String.self, forKey: .author)
     title = try container.decodeIfPresent(String.self, forKey: .title)
     url = try container.decodeIfPresent(URL.self, forKey: .url)
@@ -36,5 +37,5 @@ class Articles: Codable {
 }
 struct Source: Codable {
     var id: String?
-    var name: String
+    var name: String?
 }
