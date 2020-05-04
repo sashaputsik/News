@@ -20,6 +20,8 @@
 		9F60912F245B13CF00505949 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F60912E245B13CF00505949 /* TableViewCell.swift */; };
 		9F609131245B170C00505949 /* swift.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F609130245B170C00505949 /* swift.png */; };
 		9F9C8B13245C687E00D8A671 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9C8B12245C687E00D8A671 /* compass.png */; };
+		9FB53AF6245F13840041446E /* Protocol+ViewConroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB53AF5245F13840041446E /* Protocol+ViewConroller.swift */; };
+		9FB53AF8245F146A0041446E /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB53AF7245F146A0041446E /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		9F60912E245B13CF00505949 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		9F609130245B170C00505949 /* swift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swift.png; sourceTree = "<group>"; };
 		9F9C8B12245C687E00D8A671 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
+		9FB53AF5245F13840041446E /* Protocol+ViewConroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Protocol+ViewConroller.swift"; sourceTree = "<group>"; };
+		9FB53AF7245F146A0041446E /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +80,8 @@
 				9F60911C245AEC3500505949 /* ViewController.swift */,
 				9F60912E245B13CF00505949 /* TableViewCell.swift */,
 				9F60911E245AEC3500505949 /* Main.storyboard */,
+				9FB53AF5245F13840041446E /* Protocol+ViewConroller.swift */,
+				9FB53AF7245F146A0041446E /* CollectionViewCell.swift */,
 				9F4C91F8245B2D68002F84FA /* OneNewViewController.swift */,
 				9F609121245AEC3900505949 /* Assets.xcassets */,
 				9F609123245AEC3900505949 /* LaunchScreen.storyboard */,
@@ -173,8 +179,10 @@
 			files = (
 				9F60912F245B13CF00505949 /* TableViewCell.swift in Sources */,
 				9F60911D245AEC3500505949 /* ViewController.swift in Sources */,
+				9FB53AF8245F146A0041446E /* CollectionViewCell.swift in Sources */,
 				9F4C91F9245B2D68002F84FA /* OneNewViewController.swift in Sources */,
 				9F609119245AEC3500505949 /* AppDelegate.swift in Sources */,
+				9FB53AF6245F13840041446E /* Protocol+ViewConroller.swift in Sources */,
 				9F60911B245AEC3500505949 /* SceneDelegate.swift in Sources */,
 				9F60912D245AEC9C00505949 /* Model.swift in Sources */,
 			);

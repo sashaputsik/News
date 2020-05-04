@@ -26,9 +26,14 @@ class OneNewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        newImageView.layer.cornerRadius = 20
         var barButtonItems = [UIBarButtonItem]()
-        let safari =  UIBarButtonItem(image: UIImage(named: "compass.png"), style: .done, target: self, action: #selector(openSafari))
-        let share = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shared))
+        let safari =  UIBarButtonItem(image: UIImage(named: "compass.png"),
+                                      style: .done, target: self,
+                                      action: #selector(openSafari))
+        let share = UIBarButtonItem(barButtonSystemItem: .action,
+                                    target: self,
+                                    action: #selector(shared))
         safari.tintColor = .red
         barButtonItems.append(safari)
         barButtonItems.append(share)
@@ -54,7 +59,11 @@ class OneNewViewController: UIViewController {
     @objc func shared(){
         guard let urlShared = URL(string: url) else{return}
         guard let image = newImageView.image else {return}
-        let activity = UIActivityViewController(activityItems: [urlShared, image], applicationActivities: nil)
-        present(activity, animated: true, completion: nil   )
+        let activity = UIActivityViewController(activityItems: [urlShared,
+                                                                image],
+                                                applicationActivities: nil)
+        present(activity, animated: true,
+                completion: nil   )
+        
     }
 }
