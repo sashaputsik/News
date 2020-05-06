@@ -87,6 +87,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
     }
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
+        tableView.isHidden = true
+        loadActivityIndecator.isHidden = false
+        loadActivityIndecator.startAnimating()
         for i in 0..<citesSelected.count{
             citesSelected[i] = false
             citesSelected[indexPath.row] = true

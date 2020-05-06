@@ -1,23 +1,27 @@
 import UIKit
 class ViewController: UIViewController {
-        let urlStringArray  = ["http://newsapi.org/v2/everything?q=bitcoin&from=2020-04-04&sortBy=publishedAt&apiKey=69698df82a724ba9b3979013183abb34",
+        let urlStringArray  = ["http://newsapi.org/v2/everything?domains=wsj.com&apiKey=69698df82a724ba9b3979013183abb34",
         "http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=69698df82a724ba9b3979013183abb34",
-        "http://newsapi.org/v2/everything?q=apple&from=2020-05-03&to=2020-05-03&sortBy=popularity&apiKey=69698df82a724ba9b3979013183abb34"]
+        "http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=69698df82a724ba9b3979013183abb34"]
     
         var articles: [Articles] = []
-        let citeArray = ["Bitcoin articles",
+        let citeArray = ["Wall Street Journal",
                          "Business headlines",
-                         "Apple news"]
+                         "TechCrunch"]
         var index = 0
         var citesSelected = [true, false, false]
         @IBOutlet weak var tableView: UITableView!
         @IBOutlet weak var collectionView: UICollectionView!
+        @IBOutlet weak var loadActivityIndecator: UIActivityIndicatorView!
+    
         let cellId = "cell"
         var image = UIImage()
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.isHidden = true
         collectionView.isHidden = true
+        loadActivityIndecator.isHidden = false
+        loadActivityIndecator.startAnimating()
         let back = UIBarButtonItem()
         back.title = ""
         navigationItem.backBarButtonItem = back
@@ -35,7 +39,8 @@ class ViewController: UIViewController {
     func loadNews(of index: Int){
         guard let url = URL(string:urlStringArray[index] ) else {return}
            let session = URLSession.shared
-           session.dataTask(with: url) { (data, response, error) in
+           session.dataTask(with: url) {[weak self] (data, response, error) in
+            guard let self = self else{return}
                guard let data = data, error == nil else{print(error!);return}
                    do{
                        let newsArrays = try JSONDecoder().decode(News.self, from: data)
@@ -48,6 +53,8 @@ class ViewController: UIViewController {
                 self.tableView.reloadData()
                 self.tableView.isHidden = false
                 self.collectionView.isHidden = false
+                self.loadActivityIndecator.isHidden = true
+                self.loadActivityIndecator.stopAnimating()
                }
            }.resume()
         }
