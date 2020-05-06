@@ -1,8 +1,8 @@
 import UIKit
 class ViewController: UIViewController {
         let urlStringArray  = ["http://newsapi.org/v2/everything?domains=wsj.com&apiKey=69698df82a724ba9b3979013183abb34",
-        "http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=69698df82a724ba9b3979013183abb34",
-        "http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=69698df82a724ba9b3979013183abb34"]
+                               "http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=69698df82a724ba9b3979013183abb34",
+                               "http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=69698df82a724ba9b3979013183abb34"]
     
         var articles: [Articles] = []
         let citeArray = ["Wall Street Journal",
@@ -61,7 +61,7 @@ class ViewController: UIViewController {
         back.title = ""
         navigationItem.backBarButtonItem = back
         let view = UIImageView()
-        view.image = UIImage(named: "logo2.png")
+        view.image = UIImage(named: "logo.png")
         navigationItem.titleView = view
     }
 }

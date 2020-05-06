@@ -13,8 +13,10 @@ extension ViewController: UITableViewDataSource{
                                                        for:indexPath) as? TableViewCell else{ return UITableViewCell() }
         let new = articles[indexPath.row]
         cell.titleTextLabel.text = new.title
-        cell.dateTextLabel.text = new.publishedAt
-        
+        if let date = new.publishedAt{
+        let date1 = date.dropLast(10)
+        cell.dateTextLabel.text = "\(date1)"
+        }
         if let urlToImage = new.urlToImage{
             if let data = try? Data(contentsOf:urlToImage ){
                 let image = UIImage(data: data)
@@ -33,6 +35,7 @@ extension ViewController: UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "oneNew") as? OneNewViewController else {return}
         if  let title = articles[indexPath.row].title,
             let urlToImage = articles[indexPath.row].urlToImage,
