@@ -34,7 +34,7 @@ class OneNewViewController: UIViewController {
         let share = UIBarButtonItem(barButtonSystemItem: .action,
                                     target: self,
                                     action: #selector(shared))
-        safari.tintColor = .red
+        safari.tintColor = #colorLiteral(red: 0.3543371856, green: 0.7160425782, blue: 1, alpha: 1)
         barButtonItems.append(safari)
         barButtonItems.append(share)
         navigationItem.rightBarButtonItems = barButtonItems
@@ -53,7 +53,7 @@ class OneNewViewController: UIViewController {
     @objc func openSafari(){
         guard let urlSafari = URL(string: url) else{return}
         let svc = SFSafariViewController(url: urlSafari )
-        svc.preferredControlTintColor = .blue
+        svc.preferredControlTintColor = #colorLiteral(red: 0.3543371856, green: 0.7160425782, blue: 1, alpha: 1)
         present(svc, animated: true, completion: nil)
     }
     @objc func shared(){

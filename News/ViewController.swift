@@ -22,18 +22,10 @@ class ViewController: UIViewController {
         collectionView.isHidden = true
         loadActivityIndecator.isHidden = false
         loadActivityIndecator.startAnimating()
-        let back = UIBarButtonItem()
-        back.title = ""
-        navigationItem.backBarButtonItem = back
-        let view = UIImageView()
-        view.image = UIImage(named: "logo2.png")
-        navigationItem.titleView = view
         collectionView.allowsMultipleSelection = true
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        tableView.delegate = self
-        tableView.dataSource = self
+        addedBarItems()
+        delegates()
         loadNews(of: 0)
     }
     func loadNews(of index: Int){
@@ -58,4 +50,18 @@ class ViewController: UIViewController {
                }
            }.resume()
         }
+    func delegates(){
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    func addedBarItems(){
+        let back = UIBarButtonItem()
+        back.title = ""
+        navigationItem.backBarButtonItem = back
+        let view = UIImageView()
+        view.image = UIImage(named: "logo2.png")
+        navigationItem.titleView = view
+    }
 }
