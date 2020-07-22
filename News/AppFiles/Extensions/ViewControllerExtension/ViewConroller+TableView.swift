@@ -62,20 +62,20 @@ extension ViewController: UITableViewDelegate{
 extension ViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return citeArray.count
+        return NewsResource().citeArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
                                                       for: indexPath) as! CollectionViewCell
-        cell.newsLabel.text = citeArray[indexPath.row]
+        cell.newsLabel.text = NewsResource().citeArray[indexPath.row]
         cell.layer.cornerRadius = 5
         if citesSelected[indexPath.row]{
-            cell.selectedIndicatorView.backgroundColor = #colorLiteral(red: 0.3543371856, green: 0.7160425782, blue: 1, alpha: 1)
+            cell.newsLabel.font = UIFont(name: "Baskerville-Bold", size: 17)
         }
         else{
-            cell.selectedIndicatorView.backgroundColor = .clear
+            cell.newsLabel.font = UIFont(name: "Baskerville", size: 15)
         }
         return cell
     }

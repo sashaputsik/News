@@ -1,12 +1,6 @@
-//
-//  Model.swift
-//  News
-//
-//  Created by Sasha Putsikovich on 30.04.2020.
-//  Copyright © 2020 Sasha Putsikovich. All rights reserved.
-//
-
 import Foundation
+
+var articles = [Articles]()
 
 struct News: Codable{
     var status: String
@@ -35,7 +29,10 @@ class Articles: Codable {
     content = try container.decodeIfPresent(String.self, forKey: .content)
     }
 }
+
 struct Source: Codable {
     var id: String?
     var name: String?
 }
+
+
