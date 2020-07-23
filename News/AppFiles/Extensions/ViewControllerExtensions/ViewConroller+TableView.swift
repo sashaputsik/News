@@ -14,8 +14,8 @@ extension ViewController: UITableViewDataSource{
         let new = articles[indexPath.row]
         cell.titleTextLabel.text = new.title
         if let date = new.publishedAt{
-        let date1 = date.dropLast(10)
-        cell.dateTextLabel.text = "\(date1)"
+            let date1 = date.dropLast(10)
+            cell.dateTextLabel.text = "\(date1)"
         }
         if let urlToImage = new.urlToImage{
             if let data = try? Data(contentsOf:urlToImage ){
@@ -23,7 +23,7 @@ extension ViewController: UITableViewDataSource{
                 cell.newImageView.image = image
         }
         }
-        cell.newImageView.layer.cornerRadius = 10
+        cell.newImageView.layer.cornerRadius = 15
         return cell
     }
 }
@@ -31,7 +31,7 @@ extension ViewController: UITableViewDataSource{
 extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 185.0
+        return 120.0
     }
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
@@ -43,18 +43,17 @@ extension ViewController: UITableViewDelegate{
             let url = articles[indexPath.row].url,
             let author = articles[indexPath.row].author {
                 vc.titleText = title
-                vc.imageUrl = "\(urlToImage)"
-                vc.contentText = content
+                vc.urlToImage = "\(urlToImage)"
+                vc.content = content
                 vc.url = "\(url)"
                 vc.author = author
         }
-        if let source = articles[indexPath.row].source{
+        if let source = articles[indexPath.row].source {
             if let sourceName = source.name{
-                vc.source = sourceName
+                vc.sourceName = sourceName
             }
         }
-        navigationController?.pushViewController(vc,
-                                                 animated: true)
+        showDetailViewController(vc, sender: nil)
         }
     }
     
@@ -73,9 +72,13 @@ extension ViewController: UICollectionViewDataSource{
         cell.layer.cornerRadius = 5
         if citesSelected[indexPath.row]{
             cell.newsLabel.font = UIFont(name: "Baskerville-Bold", size: 17)
+            cell.newsLabel.layer.shadowOpacity = 0.3
+            cell.newsLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
         }
         else{
             cell.newsLabel.font = UIFont(name: "Baskerville", size: 15)
+            cell.newsLabel.layer.shadowOpacity = 0.0
+            cell.newsLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
         }
         return cell
     }
@@ -90,8 +93,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
     }
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        tableView.isHidden = true
-        loadActivityIndecator.isHidden = false
+        isHiddenView(of: true)
+        collectionView.isHidden = false
         loadActivityIndecator.startAnimating()
         for i in 0..<citesSelected.count{
             citesSelected[i] = false

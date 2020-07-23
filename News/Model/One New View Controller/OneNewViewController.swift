@@ -8,54 +8,50 @@ class OneNewViewController: UIViewController {
     @IBOutlet weak var loadActivityIndicator:UIActivityIndicatorView!
     @IBOutlet weak var sourceTextLabel: UILabel!
     @IBOutlet weak var authorTextLabel: UILabel!
+    @IBOutlet weak var safariButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     
     var titleText = ""
-    var contentText = ""
-    var imageUrl = ""
+    var content = ""
+    var urlToImage = ""
     var url = ""
-    var source = ""
+    var sourceName = ""
     var author = ""
-
+    override func viewWillAppear(_ animated: Bool) {
+        print(titleText)
+        loadActivityIndicator.startAnimating()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        newImageView.layer.cornerRadius = 20
-        var barButtonItems = [UIBarButtonItem]()
-        let safari =  UIBarButtonItem(image: UIImage(named: "compass.png"),
-                                      style: .done, target: self,
-                                      action: #selector(openSafari))
-        let share = UIBarButtonItem(barButtonSystemItem: .action,
-                                    target: self,
-                                    action: #selector(shared))
-        safari.tintColor = #colorLiteral(red: 0.3543371856, green: 0.7160425782, blue: 1, alpha: 1)
-        barButtonItems.append(safari)
-        barButtonItems.append(share)
-        navigationItem.rightBarButtonItems = barButtonItems
+        frameAndLayer()
+        shareButton.addTarget(self, action: #selector(share), for: .touchUpInside)
+        safariButton.addTarget(self, action: #selector(safari), for: .touchUpInside)
         DispatchQueue.main.async {
-            self.contentTextView.text = self.contentText
+            self.contentTextView.text = self.content
             self.titleTextLabel.text = self.titleText
             self.authorTextLabel.text = self.author
-            self.sourceTextLabel.text = self.source
-            guard let urlImage = URL(string: self.imageUrl) else{return}
+            self.sourceTextLabel.text = self.sourceName
+            guard let urlImage = URL(string: self.urlToImage) else{return}
             if let dataImage = try? Data(contentsOf: urlImage){
                 self.newImageView.image = UIImage(data: dataImage)
                 self.loadActivityIndicator.isHidden = true
+                self.loadActivityIndicator.stopAnimating()
             }
         }
     }
-    @objc func openSafari(){
-        guard let urlSafari = URL(string: url) else{return}
-        let svc = SFSafariViewController(url: urlSafari )
-        svc.preferredControlTintColor = #colorLiteral(red: 0.3543371856, green: 0.7160425782, blue: 1, alpha: 1)
-        present(svc, animated: true, completion: nil)
+    @objc func share(){
+        //
     }
-    @objc func shared(){
-        guard let urlShared = URL(string: url) else{return}
-        guard let image = newImageView.image else {return}
-        let activity = UIActivityViewController(activityItems: [urlShared,
-                                                                image],
-                                                applicationActivities: nil)
-        present(activity, animated: true,
-                completion: nil   )
+    @objc func safari(){
+        //
+    }
+    func frameAndLayer(){
+        shareButton.layer.cornerRadius = shareButton.frame.height/2
+        safariButton.layer.cornerRadius = safariButton.frame.height/2
+        shareButton.layer.shadowOpacity = 0.3
+        shareButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        safariButton.layer.shadowOpacity = 0.3
+        safariButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+    }
         
-    }
 }
