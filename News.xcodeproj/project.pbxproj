@@ -23,6 +23,8 @@
 		9FE1707F24CA18FD0078D03F /* AllNewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE1707E24CA18FD0078D03F /* AllNewsTableViewController.swift */; };
 		9FE1708A24CA24D30078D03F /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE1708824CA24D30078D03F /* share.png */; };
 		9FE1708B24CA24D30078D03F /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE1708924CA24D30078D03F /* compass.png */; };
+		9FE8E1F924CDC67E00F83C72 /* SFSafatiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE8E1F824CDC67E00F83C72 /* SFSafatiViewController.swift */; };
+		9FE8E1FB24CDC93C00F83C72 /* newspaper.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FE8E1FA24CDC93C00F83C72 /* newspaper.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		9FE1707E24CA18FD0078D03F /* AllNewsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllNewsTableViewController.swift; sourceTree = "<group>"; };
 		9FE1708824CA24D30078D03F /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		9FE1708924CA24D30078D03F /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
+		9FE8E1F824CDC67E00F83C72 /* SFSafatiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafatiViewController.swift; sourceTree = "<group>"; };
+		9FE8E1FA24CDC93C00F83C72 /* newspaper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newspaper.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,7 @@
 		9F0A87DF24C8791E00C024E6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9FE8E1F724CDC64B00F83C72 /* OneNewViewControllerExtetsions */,
 				9F0A87EA24C88B7100C024E6 /* ViewControllerExtensions */,
 			);
 			path = Extensions;
@@ -187,10 +192,19 @@
 		9FB53AF4245EF3BC0041446E /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				9FE8E1FA24CDC93C00F83C72 /* newspaper.png */,
 				9FE1708924CA24D30078D03F /* compass.png */,
 				9FE1708824CA24D30078D03F /* share.png */,
 			);
 			path = Image;
+			sourceTree = "<group>";
+		};
+		9FE8E1F724CDC64B00F83C72 /* OneNewViewControllerExtetsions */ = {
+			isa = PBXGroup;
+			children = (
+				9FE8E1F824CDC67E00F83C72 /* SFSafatiViewController.swift */,
+			);
+			path = OneNewViewControllerExtetsions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +268,7 @@
 				9F609125245AEC3900505949 /* LaunchScreen.storyboard in Resources */,
 				9F609122245AEC3900505949 /* Assets.xcassets in Resources */,
 				9F609120245AEC3500505949 /* Main.storyboard in Resources */,
+				9FE8E1FB24CDC93C00F83C72 /* newspaper.png in Resources */,
 				9FE1708A24CA24D30078D03F /* share.png in Resources */,
 				9FE1708B24CA24D30078D03F /* compass.png in Resources */,
 			);
@@ -273,6 +288,7 @@
 				9F609119245AEC3500505949 /* AppDelegate.swift in Sources */,
 				9FB53AF6245F13840041446E /* ViewConroller+TableView.swift in Sources */,
 				9F60911B245AEC3500505949 /* SceneDelegate.swift in Sources */,
+				9FE8E1F924CDC67E00F83C72 /* SFSafatiViewController.swift in Sources */,
 				9FE1707F24CA18FD0078D03F /* AllNewsTableViewController.swift in Sources */,
 				9F0A87E624C887FE00C024E6 /* NewsResource.swift in Sources */,
 				9F0A87EC24C88B8F00C024E6 /* All.swift in Sources */,

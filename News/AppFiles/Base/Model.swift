@@ -2,37 +2,58 @@ import Foundation
 
 var articles = [Articles]()
 
-struct News: Codable{
-    var status: String
-    var totalResults: Int
-    var articles :[Articles]
+struct Articles {
+    var author: String
+    var title: String
+    var discription: String
+    var url: String
+    var urlToImage: String
+    var publishedAt: String
+    var content: String
+    var name: String
+    
+    init(article: [String:Any]) {
+        self.author = article["author"] as? String ?? ""
+        self.content = article["content"] as? String ?? ""
+        self.discription = article["discription"] as? String ?? ""
+        self.name = (article["source"] as? [String:Any] ?? ["":""])["name"] as? String ?? ""
+        self.publishedAt = article["publishedAt"] as? String ?? ""
+        self.url = article["url"] as? String ?? ""
+        self.urlToImage = article["urlToImage"] as? String ?? ""
+        self.title = article["title"] as? String ?? ""
+    }
+    
 }
 
-class Articles: Codable {
-    var source: Source?
-    var author: String?
-    var title: String?
-    var discription: String?
-    var url: URL?
-    var urlToImage: URL?
-    var publishedAt: String?
-    var content: String?
-    
-    required init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    source = try container.decodeIfPresent(Source.self, forKey: .source)
-    author = try container.decodeIfPresent(String.self, forKey: .author)
-    title = try container.decodeIfPresent(String.self, forKey: .title)
-    url = try container.decodeIfPresent(URL.self, forKey: .url)
-    urlToImage = try container.decodeIfPresent(URL.self, forKey: .urlToImage)
-    publishedAt = try container.decodeIfPresent(String.self, forKey: .publishedAt)
-    content = try container.decodeIfPresent(String.self, forKey: .content)
+
+class Parse{
+    func loadNews(of value: Int, complitionHandler: (()->())?){
+        guard let url = URL(string: NewsResource().urlStringArray[value]) else{return}
+        print(url)
+        let session = URLSession.shared
+        session.downloadTask(with: url) { (data, response, error) in
+            let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]+"/data.json"
+            print(path)
+            guard let data = data else{return}
+            let urlPath = URL(fileURLWithPath: path)
+            try? FileManager.default.copyItem(at: data, to: urlPath)
+            self.parseNews()
+            complitionHandler?()
+        }.resume()
+    }
+    func parseNews(){
+        let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]+"/data.json"
+        let url = URL(fileURLWithPath: path)
+        guard let data = try? Data(contentsOf: url) else{return}
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else{return}
+        guard let articlesJson = json["articles"] as? [[String: Any]] else{return}
+        var resultArray = [Articles]()
+        for dict in articlesJson{
+            let new = Articles(article: dict)
+            resultArray.append(new)
+            print(resultArray)
+        }
+        articles = resultArray
     }
 }
-
-struct Source: Codable {
-    var id: String?
-    var name: String?
-}
-
 

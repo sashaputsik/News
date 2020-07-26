@@ -11,12 +11,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var loadActivityIndecator: UIActivityIndicatorView!
     @IBOutlet weak var oneNewTitleLabel: UILabel!
     @IBOutlet weak var seeMoreButton: UIButton!
+    @IBOutlet weak var latestNewsLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         seeMoreButton.addTarget(self, action: #selector(seeMore), for: .touchUpInside)
         loadActivityIndecator.startAnimating()
         collectionView.allowsMultipleSelection = true
@@ -27,25 +29,29 @@ class ViewController: UIViewController {
         addedBarItems()
         frameAndLayer()
         delegates()
-        loadNews(of: 0)
+        Parse().loadNews(of: 0) {
+            self.randomValue = Int.random(in: 0..<articles.count)
+            let oneNew = articles[self.randomValue]
+            guard let url = URL(string: oneNew.urlToImage) else{return}
+            guard let data = try? Data(contentsOf: url) else{return}
+            DispatchQueue.main.async {
+                self.oneNewImageView.image = UIImage(data: data)
+                self.oneNewTitleLabel.text = oneNew.title
+                self.tableView.reloadData()
+                self.isHiddenView(of: false)
+                self.loadActivityIndecator.stopAnimating()
+                }
+            }
     }
     @objc func tapOneViewNew(){
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "oneNew") as? OneNewViewController else{return}
-        if let title = articles[randomValue].title,
-            let urlToImage = articles[randomValue].urlToImage,
-            let content = articles[randomValue].content,
-            let url = articles[randomValue].url,
-            let author = articles[randomValue].author {
-            vc.author = author
-            vc.title = title
-            vc.content = content
-            vc.url = "\(url)"
-            vc.urlToImage = "\(urlToImage)"
-        }
-        if let source = articles[randomValue].source{
-            guard let sourceName = source.name else{return}
-            vc.sourceName = sourceName
-        }
+        let news = articles[randomValue]
+        vc.author = news.author
+        vc.titleText = news.title
+        vc.content = news.content
+        vc.url = "\(news.url)"
+        vc.urlToImage = "\(news.urlToImage)"
+        vc.sourceName = news.name
         showDetailViewController(vc, sender: nil)
     }
     @objc func seeMore(){

@@ -13,15 +13,13 @@ extension ViewController: UITableViewDataSource{
                                                        for:indexPath) as? TableViewCell else{ return UITableViewCell() }
         let new = articles[indexPath.row]
         cell.titleTextLabel.text = new.title
-        if let date = new.publishedAt{
-            let date1 = date.dropLast(10)
-            cell.dateTextLabel.text = "\(date1)"
-        }
-        if let urlToImage = new.urlToImage{
-            if let data = try? Data(contentsOf:urlToImage ){
-                let image = UIImage(data: data)
-                cell.newImageView.image = image
-        }
+        let date = new.publishedAt
+        let date1 = date.dropLast(10)
+        cell.dateTextLabel.text = "\(date1)"
+        guard let url = URL(string: new.urlToImage) else{return UITableViewCell()}
+        if let data = try? Data(contentsOf:url ){
+            let image = UIImage(data: data)
+            cell.newImageView.image = image
         }
         cell.newImageView.layer.cornerRadius = 15
         return cell
@@ -37,22 +35,14 @@ extension ViewController: UITableViewDelegate{
                    didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "oneNew") as? OneNewViewController else {return}
-        if  let title = articles[indexPath.row].title,
-            let urlToImage = articles[indexPath.row].urlToImage,
-            let content = articles[indexPath.row].content,
-            let url = articles[indexPath.row].url,
-            let author = articles[indexPath.row].author {
-                vc.titleText = title
-                vc.urlToImage = "\(urlToImage)"
-                vc.content = content
-                vc.url = "\(url)"
-                vc.author = author
-        }
-        if let source = articles[indexPath.row].source {
-            if let sourceName = source.name{
-                vc.sourceName = sourceName
-            }
-        }
+        let news = articles[indexPath.row]
+       
+        vc.titleText = news.title
+        vc.urlToImage = "\(news.urlToImage)"
+        vc.content = news.content
+        vc.url = "\(news.url)"
+        vc.author = news.author
+        vc.sourceName = news.name
         showDetailViewController(vc, sender: nil)
         }
     }
@@ -101,7 +91,23 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
             citesSelected[indexPath.row] = true
             collectionView.reloadData()
         }
-        loadNews(of: indexPath.row)
+        articles.removeAll()
+        let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]+"/data.json"
+        try? FileManager.default.removeItem(atPath: path)
+        Parse().loadNews(of: indexPath.row) {
+            self.randomValue = Int.random(in: 0..<articles.count)
+            let oneNew = articles[self.randomValue]
+            guard let url = URL(string: oneNew.urlToImage) else{return}
+            guard let data = try? Data(contentsOf: url) else{return}
+            DispatchQueue.main.async {
+                self.oneNewImageView.image = UIImage(data: data)
+                self.oneNewTitleLabel.text = oneNew.title
+                self.tableView.reloadData()
+                self.isHiddenView(of: false)
+                self.loadActivityIndecator.stopAnimating()
+                self.tableView.reloadData()
+            }
+        }
     }
     
 }

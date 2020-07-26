@@ -10,7 +10,6 @@ class OneNewViewController: UIViewController {
     @IBOutlet weak var authorTextLabel: UILabel!
     @IBOutlet weak var safariButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
-    
     var titleText = ""
     var content = ""
     var urlToImage = ""
@@ -18,7 +17,6 @@ class OneNewViewController: UIViewController {
     var sourceName = ""
     var author = ""
     override func viewWillAppear(_ animated: Bool) {
-        print(titleText)
         loadActivityIndicator.startAnimating()
     }
     override func viewDidLoad() {
@@ -40,10 +38,15 @@ class OneNewViewController: UIViewController {
         }
     }
     @objc func share(){
-        //
+        let activityController = UIActivityViewController(activityItems: [url], applicationActivities: [])
+        present(activityController, animated: true, completion: nil)
     }
     @objc func safari(){
-        //
+        guard let url = URL(string: url) else{return}
+        let safariView = SFSafariViewController(url: url)
+        safariView.delegate = self
+        safariView.dismissButtonStyle = .close
+        present(safariView, animated: true, completion: nil)
     }
     func frameAndLayer(){
         shareButton.layer.cornerRadius = shareButton.frame.height/2
@@ -55,3 +58,4 @@ class OneNewViewController: UIViewController {
     }
         
 }
+
