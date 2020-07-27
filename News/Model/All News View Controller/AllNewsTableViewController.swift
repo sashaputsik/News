@@ -6,8 +6,6 @@ class AllNewsTableViewController: UITableViewController {
         super.viewDidLoad()
         title = "All news"
         navigationController?.isNavigationBarHidden = false
-        
-        print(tableView.contentSize)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,7 +34,6 @@ class AllNewsTableViewController: UITableViewController {
         vc.urlToImage = "\(news.urlToImage)"
         vc.url = "\(news.url)"
         vc.sourceName = news.name
-    
         showDetailViewController(vc, sender: nil)
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

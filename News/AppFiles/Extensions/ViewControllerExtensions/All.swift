@@ -31,7 +31,7 @@ extension ViewController{
         oneNewImageView.layer.cornerRadius = 10
         oneNewView.layer.shadowOpacity = 0.8
         oneNewView.layer.shadowOffset = CGSize(width: 1, height: 2)
-        seeMoreButton.layer.shadowOpacity = 0.6
+        seeMoreButton.layer.shadowOpacity = 0.5
         seeMoreButton.layer.shadowOffset = CGSize(width: 1, height: 0)
     }
 }

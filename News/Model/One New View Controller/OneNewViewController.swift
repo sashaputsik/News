@@ -46,6 +46,7 @@ class OneNewViewController: UIViewController {
         let safariView = SFSafariViewController(url: url)
         safariView.delegate = self
         safariView.dismissButtonStyle = .close
+        safariView.preferredControlTintColor = .black   
         present(safariView, animated: true, completion: nil)
     }
     func frameAndLayer(){

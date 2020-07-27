@@ -51,7 +51,6 @@ class Parse{
         for dict in articlesJson{
             let new = Articles(article: dict)
             resultArray.append(new)
-            print(resultArray)
         }
         articles = resultArray
     }
