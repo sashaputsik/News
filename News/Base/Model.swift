@@ -56,3 +56,14 @@ class Parse{
     }
 }
 
+extension String{
+    enum Strings: String{
+        case oneNewView
+        case allNewsView
+    }
+    var localized: String{NSLocalizedString(self, comment: self)}
+    
+    init(_ localized: Strings){
+        self.init(localized.rawValue.localized)
+    }
+}

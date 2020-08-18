@@ -11,7 +11,7 @@
         <!--       -->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -184,7 +184,7 @@
         <!--All News Table View Controller-->
         <scene sceneID="g88-Am-vkq">
             <objects>
-                <tableViewController storyboardIdentifier="AllNews" id="4ih-ek-C8e" customClass="AllNewsTableViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AllNewsTableViewController" id="4ih-ek-C8e" customClass="AllNewsTableViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="x5b-Jh-zC0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -237,7 +237,7 @@
         <!--One New View Controller-->
         <scene sceneID="PNb-0f-CTL">
             <objects>
-                <viewController storyboardIdentifier="oneNew" id="Q2U-ix-QDw" customClass="OneNewViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OneNewViewController" id="Q2U-ix-QDw" customClass="OneNewViewController" customModule="News" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="h1m-Of-c6Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

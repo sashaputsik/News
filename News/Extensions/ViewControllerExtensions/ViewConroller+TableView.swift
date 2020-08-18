@@ -9,7 +9,7 @@ extension ViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.id,
                                                        for:indexPath) as? TableViewCell else{ return UITableViewCell() }
         let new = articles[indexPath.row]
         cell.titleTextLabel.text = new.title
@@ -33,7 +33,8 @@ extension ViewController: UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath,
+                              animated: true)
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "oneNew") as? OneNewViewController else {return}
         let news = articles[indexPath.row]
        
@@ -43,7 +44,8 @@ extension ViewController: UITableViewDelegate{
         vc.url = "\(news.url)"
         vc.author = news.author
         vc.sourceName = news.name
-        showDetailViewController(vc, sender: nil)
+        showDetailViewController(vc,
+                                 sender: nil)
         }
     }
     
@@ -56,19 +58,19 @@ extension ViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell",
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.id,
                                                       for: indexPath) as! CollectionViewCell
         cell.newsLabel.text = NewsResource().citeArray[indexPath.row]
-        cell.layer.cornerRadius = 5
+        cell.layer.cornerRadius = CGFloat(UITableViewCell.Appearence().cornerRadius)
         if citesSelected[indexPath.row]{
-            cell.newsLabel.font = UIFont(name: "Baskerville-Bold", size: 17)
-            cell.newsLabel.layer.shadowOpacity = 0.3
-            cell.newsLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
+            cell.newsLabel.font = UITableViewCell.Appearence().font
+            cell.newsLabel.layer.shadowOpacity = Float(UITableViewCell.Appearence().shadowOpacity)
+            cell.newsLabel.layer.shadowOffset = UITableViewCell.Appearence().shadowOffset
         }
         else{
-            cell.newsLabel.font = UIFont(name: "Baskerville", size: 15)
-            cell.newsLabel.layer.shadowOpacity = 0.0
-            cell.newsLabel.layer.shadowOffset = CGSize(width: 1, height: 1)
+            cell.newsLabel.font = UITableViewCell.Appearence().fontBold
+            cell.newsLabel.layer.shadowOpacity = Float(UITableViewCell.Appearence().shadowOpacity)
+            cell.newsLabel.layer.shadowOffset = UITableViewCell.Appearence().shadowOffset
         }
         return cell
     }
@@ -92,7 +94,9 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
             collectionView.reloadData()
         }
         articles.removeAll()
-        let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]+"/data.json"
+        let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory,
+                                                       .userDomainMask,
+                                                       true)[0]+"/data.json"
         try? FileManager.default.removeItem(atPath: path)
         Parse().loadNews(of: indexPath.row) {
             self.randomValue = Int.random(in: 0..<articles.count)
@@ -110,4 +114,22 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
         }
     }
     
+}
+
+extension UICollectionViewCell{
+   public static var id: String{
+        return "cell"
+    }
+}
+
+ private extension UITableViewCell{
+    struct Appearence {
+        let cornerRadius = 5
+        let font = UIFont(name: "Baskerville",
+                          size: 15)
+        let fontBold = UIFont(name: "Baskerville-Bold",
+                              size: 17)
+        let shadowOpacity = 0.3
+        let shadowOffset = CGSize(width: 1, height: 1)
+    }
 }
