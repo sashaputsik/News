@@ -12,21 +12,36 @@ struct Articles {
     var content: String
     var name: String
     
-    init(article: [String:Any]) {
-        self.author = article["author"] as? String ?? ""
-        self.content = article["content"] as? String ?? ""
-        self.discription = article["discription"] as? String ?? ""
-        self.name = (article["source"] as? [String:Any] ?? ["":""])["name"] as? String ?? ""
-        self.publishedAt = article["publishedAt"] as? String ?? ""
-        self.url = article["url"] as? String ?? ""
-        self.urlToImage = article["urlToImage"] as? String ?? ""
-        self.title = article["title"] as? String ?? ""
+    init(article: [String: Any]) {
+        self.author = article[ParseKeys.author.rawValue] as? String ?? ""
+        self.content = article[ParseKeys.content.rawValue] as? String ?? ""
+        self.discription = article[ParseKeys.discription.rawValue] as? String ?? ""
+        self.name = (article[ParseKeys.source.rawValue] as? [String:Any] ?? ["":""])[ParseKeys.name.rawValue] as? String ?? ""
+        self.publishedAt = article[ParseKeys.publishedAt.rawValue] as? String ?? ""
+        self.url = article[ParseKeys.url.rawValue] as? String ?? ""
+        self.urlToImage = article[ParseKeys.urlToImage.rawValue] as? String ?? ""
+        self.title = article[ParseKeys.title.rawValue] as? String ?? ""
     }
     
 }
 
+//MARK: ParseKeys to init
+private enum ParseKeys: String{
+    case articles = "articles"
+    case source = "source"
+    case author = "author"
+    case title = "title"
+    case discription = "discription"
+    case url = "url"
+    case urlToImage = "urlToImage"
+    case publishedAt = "publishedAt"
+    case content = "content"
+    case name = "name"
+}
 
+//MARK: Parse class
 class Parse{
+    
     func loadNews(of value: Int, complitionHandler: (()->())?){
         guard let url = URL(string: NewsResource().urlStringArray[value]) else{return}
         print(url)
@@ -41,29 +56,18 @@ class Parse{
             complitionHandler?()
         }.resume()
     }
+    
     func parseNews(){
         let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]+"/data.json"
         let url = URL(fileURLWithPath: path)
         guard let data = try? Data(contentsOf: url) else{return}
         guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else{return}
-        guard let articlesJson = json["articles"] as? [[String: Any]] else{return}
+        guard let articlesJson = json[ParseKeys.articles.rawValue] as? [[String: Any]] else{return}
         var resultArray = [Articles]()
         for dict in articlesJson{
             let new = Articles(article: dict)
             resultArray.append(new)
         }
         articles = resultArray
-    }
-}
-
-extension String{
-    enum Strings: String{
-        case oneNewView
-        case allNewsView
-    }
-    var localized: String{NSLocalizedString(self, comment: self)}
-    
-    init(_ localized: Strings){
-        self.init(localized.rawValue.localized)
     }
 }

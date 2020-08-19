@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
-//MARK: TABLE VIEW DELEGATE
+
+//MARK: TableViewDelegateDataSource
 extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
@@ -37,7 +38,6 @@ extension ViewController: UITableViewDelegate{
                               animated: true)
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "oneNew") as? OneNewViewController else {return}
         let news = articles[indexPath.row]
-       
         vc.titleText = news.title
         vc.urlToImage = "\(news.urlToImage)"
         vc.content = news.content
@@ -46,10 +46,10 @@ extension ViewController: UITableViewDelegate{
         vc.sourceName = news.name
         showDetailViewController(vc,
                                  sender: nil)
-        }
     }
+}
     
-//MARK: COLLECTION VIEW DELEGATE
+//MARK: CollectionViewDelegate
 extension ViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -58,8 +58,8 @@ extension ViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.id,
-                                                      for: indexPath) as! CollectionViewCell
+       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.id,
+                                                           for: indexPath) as? CollectionViewCell else{return UICollectionViewCell()}
         cell.newsLabel.text = NewsResource().citeArray[indexPath.row]
         cell.layer.cornerRadius = CGFloat(UITableViewCell.Appearence().cornerRadius)
         if citesSelected[indexPath.row]{
@@ -74,9 +74,8 @@ extension ViewController: UICollectionViewDataSource{
         }
         return cell
     }
-    
-    
 }
+
 extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -85,7 +84,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
     }
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        isHiddenView(of: true)
+        setView(isHidden: true)
         collectionView.isHidden = false
         loadActivityIndecator.startAnimating()
         for i in 0..<citesSelected.count{
@@ -107,19 +106,18 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
                 self.oneNewImageView.image = UIImage(data: data)
                 self.oneNewTitleLabel.text = oneNew.title
                 self.tableView.reloadData()
-                self.isHiddenView(of: false)
+                self.setView(isHidden: false)
                 self.loadActivityIndecator.stopAnimating()
                 self.tableView.reloadData()
             }
         }
     }
-    
 }
-
+//MARK: UICollectionViewCell
 extension UICollectionViewCell{
    public static var id: String{
         return "cell"
-    }
+   }
 }
 
  private extension UITableViewCell{
@@ -133,3 +131,11 @@ extension UICollectionViewCell{
         let shadowOffset = CGSize(width: 1, height: 1)
     }
 }
+
+//MARK: UITableViewCell
+extension UITableViewCell{
+    public static var id: String{
+        return "cell"
+    }
+}
+
