@@ -36,7 +36,7 @@ extension ViewController: UITableViewDelegate{
                    didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath,
                               animated: true)
-        guard let vc = storyboard?.instantiateViewController(withIdentifier: "oneNew") as? OneNewViewController else {return}
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "OneNewViewController") as? OneNewViewController else {return}
         let news = articles[indexPath.row]
         vc.titleText = news.title
         vc.urlToImage = "\(news.urlToImage)"
