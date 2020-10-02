@@ -10,25 +10,26 @@ extension ViewController{
         oneNewTitleLabel.isHidden = isHidden
         tableView.isHidden = isHidden
         collectionView.isHidden = isHidden
-        loadActivityIndecator.isHidden = !isHidden
+        loadActivityIndicator.isHidden = !isHidden
     }
     
-    func addedBarItems(){
-       let back = UIBarButtonItem()
-       back.title = ""
-       navigationItem.backBarButtonItem = back
-       let view = UIImageView()
-       view.image = UIImage(named: "logo.png")
-       navigationItem.titleView = view
-    }
+    
     
     func frameAndLayer(){
-        loadActivityIndecator.layer.shadowOpacity = Float(UIButton.Appearence().shadowOpacity)
-        loadActivityIndecator.layer.shadowOffset = UIButton.Appearence().shadowOffset
+        loadActivityIndicator.layer.shadowOpacity = Float(UIButton.Appearence().shadowOpacity)
+        loadActivityIndicator.layer.shadowOffset = UIButton.Appearence().shadowOffset
         oneNewImageView.layer.cornerRadius = 10
         oneNewView.layer.shadowOpacity = Float(UIButton.Appearence().shadowOpacity)
         oneNewView.layer.shadowOffset = UIButton.Appearence().shadowOffset
         seeMoreButton.layer.shadowOpacity = Float(UIButton.Appearence().shadowOpacity)
         seeMoreButton.layer.shadowOffset = UIButton.Appearence().shadowOffset
+    }
+}
+
+
+extension UIButton{
+    struct Appearence {
+        let shadowOpacity = 0.5
+        let shadowOffset = CGSize(width: 2, height: 2)
     }
 }

@@ -194,7 +194,7 @@
                     <connections>
                         <outlet property="collectionView" destination="fLc-uw-Vn9" id="H2n-co-h2a"/>
                         <outlet property="latestNewsLabel" destination="EQ4-Fr-gDV" id="pY8-Ue-jMR"/>
-                        <outlet property="loadActivityIndecator" destination="VHh-so-3PI" id="R8u-Nt-Pkx"/>
+                        <outlet property="loadActivityIndicator" destination="VHh-so-3PI" id="R8u-Nt-Pkx"/>
                         <outlet property="oneNewImageView" destination="u1t-2z-rcK" id="hC4-yV-uW0"/>
                         <outlet property="oneNewTitleLabel" destination="ynE-Ol-jyP" id="TRE-Kg-YaJ"/>
                         <outlet property="oneNewView" destination="Uin-Ue-8r5" id="HY2-fF-SfN"/>

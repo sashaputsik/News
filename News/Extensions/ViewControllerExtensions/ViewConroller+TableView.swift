@@ -27,11 +27,13 @@ extension ViewController: UITableViewDataSource{
     }
 }
 
+
 extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView,
                    heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120.0
     }
+    
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath,
@@ -86,7 +88,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
                         didSelectItemAt indexPath: IndexPath) {
         setView(isHidden: true)
         collectionView.isHidden = false
-        loadActivityIndecator.startAnimating()
+        loadActivityIndicator.startAnimating()
         for i in 0..<citesSelected.count{
             citesSelected[i] = false
             citesSelected[indexPath.row] = true
@@ -97,22 +99,14 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
                                                        .userDomainMask,
                                                        true)[0]+"/data.json"
         try? FileManager.default.removeItem(atPath: path)
-        Parse().loadNews(of: indexPath.row) {
+        Parse().loadNews(of: indexPath.row, needFunc: didSelectCollectionViewCell()) {
             self.randomValue = Int.random(in: 0..<articles.count)
-            let oneNew = articles[self.randomValue]
-            guard let url = URL(string: oneNew.urlToImage) else{return}
-            guard let data = try? Data(contentsOf: url) else{return}
-            DispatchQueue.main.async {
-                self.oneNewImageView.image = UIImage(data: data)
-                self.oneNewTitleLabel.text = oneNew.title
-                self.tableView.reloadData()
-                self.setView(isHidden: false)
-                self.loadActivityIndecator.stopAnimating()
-                self.tableView.reloadData()
-            }
+           print("work")
         }
     }
 }
+
+
 //MARK: UICollectionViewCell
 extension UICollectionViewCell{
    public static var id: String{

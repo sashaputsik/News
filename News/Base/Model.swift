@@ -42,7 +42,7 @@ private enum ParseKeys: String{
 //MARK: Parse class
 class Parse{
     
-    func loadNews(of value: Int, complitionHandler: (()->())?){
+    func loadNews(of value: Int, needFunc: String?, complitionHandler: @escaping (()->())){
         guard let url = URL(string: NewsResource().urlStringArray[value]) else{return}
         print(url)
         let session = URLSession.shared
@@ -53,7 +53,7 @@ class Parse{
             let urlPath = URL(fileURLWithPath: path)
             try? FileManager.default.copyItem(at: data, to: urlPath)
             self.parseNews()
-            complitionHandler?()
+            complitionHandler()
         }.resume()
     }
     
