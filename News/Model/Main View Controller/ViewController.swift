@@ -4,6 +4,7 @@ class ViewController: UIViewController {
     var randomValue = 0
     var citesSelected = [true, false, false]
     let cellId = "cell"
+    var complitionHandler:(()->())?
     @IBOutlet weak var oneNewView: UIView!
     @IBOutlet weak var oneNewImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
@@ -63,7 +64,8 @@ class ViewController: UIViewController {
     @objc
     func seeMore(){
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "AllNewsTableViewController") as? AllNewsTableViewController else{return}
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc,
+                                                 animated: true)
     }
     
     func addedBarItems(){
@@ -76,22 +78,25 @@ class ViewController: UIViewController {
         
     }
     
-    
     //MARK: Parse will select cell
-    func didSelectCollectionViewCell()->String{
-        let oneNew = articles[self.randomValue]
-                   guard let url = URL(string: oneNew.urlToImage) else{return "error"}
-                   guard let data = try? Data(contentsOf: url) else{return "error"}
-                   DispatchQueue.main.async {
-                       self.oneNewImageView.image = UIImage(data: data)
-                       self.oneNewTitleLabel.text = oneNew.title
-                       self.tableView.reloadData()
-                       self.setView(isHidden: false)
-                       self.loadActivityIndicator.stopAnimating()
-                       self.tableView.reloadData()
-                   }
-        return "return"
+    func didSelectCollectionViewCell(){
+        var complitionH: ()->()
+        complitionH = {
+            self.randomValue = Int.random(in: 0..<articles.count)
+            let oneNew = articles[self.randomValue]
+            guard let url = URL(string: oneNew.urlToImage) else{return}
+            guard let data = try? Data(contentsOf: url) else{return }
+            DispatchQueue.main.async {
+                self.oneNewImageView.image = UIImage(data: data)
+                self.oneNewTitleLabel.text = oneNew.title
+                self.tableView.reloadData()
+                self.setView(isHidden: false)
+                self.loadActivityIndicator.stopAnimating()
+                self.tableView.reloadData()
+            }
+        }
+        complitionHandler = complitionH
     }
+
+
 }
-
-

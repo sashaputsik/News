@@ -54,6 +54,7 @@ class Parse{
             try? FileManager.default.copyItem(at: data, to: urlPath)
             self.parseNews()
             complitionHandler()
+            needFunc
         }.resume()
     }
     

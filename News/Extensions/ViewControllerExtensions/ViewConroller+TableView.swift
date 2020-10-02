@@ -99,10 +99,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
                                                        .userDomainMask,
                                                        true)[0]+"/data.json"
         try? FileManager.default.removeItem(atPath: path)
-        Parse().loadNews(of: indexPath.row, needFunc: didSelectCollectionViewCell()) {
-            self.randomValue = Int.random(in: 0..<articles.count)
-           print("work")
-        }
+        didSelectCollectionViewCell()
+        Parse().loadNews(of: indexPath.row, needFunc: nil, complitionHandler: complitionHandler!)
     }
 }
 
