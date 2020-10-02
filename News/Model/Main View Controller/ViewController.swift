@@ -5,14 +5,14 @@ class ViewController: UIViewController {
     var citesSelected = [true, false, false]
     let cellId = "cell"
     var complitionHandler:(()->())?
-    @IBOutlet weak var oneNewView: UIView!
-    @IBOutlet weak var oneNewImageView: UIImageView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var loadActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var oneNewTitleLabel: UILabel!
-    @IBOutlet weak var seeMoreButton: UIButton!
-    @IBOutlet weak var latestNewsLabel: UILabel!
+    @IBOutlet private(set) var oneNewView: UIView!
+    @IBOutlet private(set) var oneNewImageView: UIImageView!
+    @IBOutlet private(set) var tableView: UITableView!
+    @IBOutlet private(set) var collectionView: UICollectionView!
+    @IBOutlet private(set) var loadActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet private(set) var oneNewTitleLabel: UILabel!
+    @IBOutlet private(set) var seeMoreButton: UIButton!
+    @IBOutlet private(set) var latestNewsLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
@@ -23,12 +23,16 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         collectionView.delegate = self
         collectionView.dataSource = self
-        seeMoreButton.addTarget(self, action: #selector(seeMore), for: .touchUpInside)
-        loadActivityIndicator.startAnimating()
         collectionView.allowsMultipleSelection = true
         collectionView.showsHorizontalScrollIndicator = false
+        
+        loadActivityIndicator.startAnimating()
+        seeMoreButton.addTarget(self,
+                                action: #selector(seeMore),
+                                for: .touchUpInside)
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapOneViewNew))
         oneNewView.addGestureRecognizer(tap)
+        
         setView(isHidden: true)
         addedBarItems()
         frameAndLayer()
@@ -49,7 +53,7 @@ class ViewController: UIViewController {
     
     //MARK: Handlers
     @objc
-    func tapOneViewNew(){
+    private func tapOneViewNew(){
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "OneNewViewController") as? OneNewViewController else{return}
         let news = articles[randomValue]
         vc.author = news.author
@@ -62,13 +66,13 @@ class ViewController: UIViewController {
     }
     
     @objc
-    func seeMore(){
+    private func seeMore(){
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "AllNewsTableViewController") as? AllNewsTableViewController else{return}
         navigationController?.pushViewController(vc,
                                                  animated: true)
     }
     
-    func addedBarItems(){
+    private func addedBarItems(){
        let back = UIBarButtonItem()
        back.title = ""
        navigationItem.backBarButtonItem = back
@@ -79,7 +83,7 @@ class ViewController: UIViewController {
     }
     
     //MARK: Parse will select cell
-    func didSelectCollectionViewCell(){
+    piblic func didSelectCollectionViewCell(){
         var complitionH: ()->()
         complitionH = {
             self.randomValue = Int.random(in: 0..<articles.count)
@@ -97,6 +101,6 @@ class ViewController: UIViewController {
         }
         complitionHandler = complitionH
     }
-
+    
 
 }

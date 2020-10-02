@@ -12,17 +12,16 @@ extension ViewController: UITableViewDataSource{
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.id,
                                                        for:indexPath) as? TableViewCell else{ return UITableViewCell() }
-        let new = articles[indexPath.row]
-        cell.titleTextLabel.text = new.title
-        let date = new.publishedAt
-        let date1 = date.dropLast(10)
-        cell.dateTextLabel.text = "\(date1)"
-        guard let url = URL(string: new.urlToImage) else{return UITableViewCell()}
+        let oneNews = articles[indexPath.row]
+        cell.titleTextLabel.text = oneNews.title
+        let date = Parse().parseNews(date: oneNews.publishedAt)
+        cell.dateTextLabel.text = date
+        guard let url = URL(string: oneNews.urlToImage) else{return UITableViewCell()}
         if let data = try? Data(contentsOf:url ){
             let image = UIImage(data: data)
             cell.newImageView.image = image
         }
-        cell.newImageView.layer.cornerRadius = 15
+        cell.newImageView.layer.cornerRadius = UITableViewCell.Appearance().cornerRadius
         return cell
     }
 }
@@ -39,13 +38,13 @@ extension ViewController: UITableViewDelegate{
         tableView.deselectRow(at: indexPath,
                               animated: true)
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "OneNewViewController") as? OneNewViewController else {return}
-        let news = articles[indexPath.row]
-        vc.titleText = news.title
-        vc.urlToImage = "\(news.urlToImage)"
-        vc.content = news.content
-        vc.url = "\(news.url)"
-        vc.author = news.author
-        vc.sourceName = news.name
+        let oneNews = articles[indexPath.row]
+        vc.titleText = oneNews.title
+        vc.urlToImage = "\(oneNews.urlToImage)"
+        vc.content = oneNews.content
+        vc.url = "\(oneNews.url)"
+        vc.author = oneNews.author
+        vc.sourceName = oneNews.name
         showDetailViewController(vc,
                                  sender: nil)
     }
@@ -63,16 +62,16 @@ extension ViewController: UICollectionViewDataSource{
        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.id,
                                                            for: indexPath) as? CollectionViewCell else{return UICollectionViewCell()}
         cell.newsLabel.text = NewsResource().citeArray[indexPath.row]
-        cell.layer.cornerRadius = CGFloat(UITableViewCell.Appearence().cornerRadius)
+        cell.layer.cornerRadius = CGFloat(UITableViewCell.Appearance().cornerRadius)
         if citesSelected[indexPath.row]{
-            cell.newsLabel.font = UITableViewCell.Appearence().font
-            cell.newsLabel.layer.shadowOpacity = Float(UITableViewCell.Appearence().shadowOpacity)
-            cell.newsLabel.layer.shadowOffset = UITableViewCell.Appearence().shadowOffset
+            cell.newsLabel.font = UITableViewCell.Appearance().font
+            cell.newsLabel.layer.shadowOpacity = Float(UITableViewCell.Appearance().shadowOpacity)
+            cell.newsLabel.layer.shadowOffset = UITableViewCell.Appearance().shadowOffset
         }
         else{
-            cell.newsLabel.font = UITableViewCell.Appearence().fontBold
-            cell.newsLabel.layer.shadowOpacity = Float(UITableViewCell.Appearence().shadowOpacity)
-            cell.newsLabel.layer.shadowOffset = UITableViewCell.Appearence().shadowOffset
+            cell.newsLabel.font = UITableViewCell.Appearance().fontBold
+            cell.newsLabel.layer.shadowOpacity = Float(UITableViewCell.Appearance().shadowOpacity)
+            cell.newsLabel.layer.shadowOffset = UITableViewCell.Appearance().shadowOffset
         }
         return cell
     }
@@ -84,6 +83,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDelegateFlow
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 186, height: 32)
     }
+    
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         setView(isHidden: true)
@@ -112,9 +112,9 @@ extension UICollectionViewCell{
    }
 }
 
- private extension UITableViewCell{
-    struct Appearence {
-        let cornerRadius = 5
+ public extension UITableViewCell{
+    struct Appearance {
+        let cornerRadius: CGFloat = 15
         let font = UIFont(name: "Baskerville",
                           size: 15)
         let fontBold = UIFont(name: "Baskerville-Bold",

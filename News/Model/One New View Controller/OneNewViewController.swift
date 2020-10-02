@@ -16,14 +16,21 @@ class OneNewViewController: UIViewController {
     var url = ""
     var sourceName = ""
     var author = ""
+    
     override func viewWillAppear(_ animated: Bool) {
         loadActivityIndicator.startAnimating()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         frameAndLayer()
-        shareButton.addTarget(self, action: #selector(share), for: .touchUpInside)
-        safariButton.addTarget(self, action: #selector(safari), for: .touchUpInside)
+        shareButton.addTarget(self,
+                              action: #selector(share),
+                              for: .touchUpInside)
+        safariButton.addTarget(self,
+                               action: #selector(safari),
+                               for: .touchUpInside)
+        
         DispatchQueue.main.async {
             self.contentTextView.text = self.content
             self.titleTextLabel.text = self.titleText
@@ -37,25 +44,36 @@ class OneNewViewController: UIViewController {
             }
         }
     }
-    @objc func share(){
-        let activityController = UIActivityViewController(activityItems: [url], applicationActivities: [])
-        present(activityController, animated: true, completion: nil)
+    
+    //MARK: Handlers
+    @objc
+    private func share(){
+        let activityController = UIActivityViewController(activityItems: [url],
+                                                          applicationActivities: [])
+        present(activityController,
+                animated: true,
+                completion: nil)
     }
-    @objc func safari(){
+    
+    @objc
+    private func safari(){
         guard let url = URL(string: url) else{return}
         let safariView = SFSafariViewController(url: url)
         safariView.delegate = self
         safariView.dismissButtonStyle = .close
         safariView.preferredControlTintColor = .black   
-        present(safariView, animated: true, completion: nil)
+        present(safariView,
+                animated: true,
+                completion: nil)
     }
+    
     func frameAndLayer(){
         shareButton.layer.cornerRadius = shareButton.frame.height/2
         safariButton.layer.cornerRadius = safariButton.frame.height/2
-        shareButton.layer.shadowOpacity = 0.3
-        shareButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-        safariButton.layer.shadowOpacity = 0.3
-        safariButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        shareButton.layer.shadowOpacity = UIButton.Appearance().shadowOpacity
+        shareButton.layer.shadowOffset = UIButton.Appearance().shadowOffset
+        safariButton.layer.shadowOpacity = UIButton.Appearance().shadowOpacity
+        safariButton.layer.shadowOffset = UIButton.Appearance().shadowOffset
     }
         
 }

@@ -16,20 +16,22 @@ extension ViewController{
     
     
     func frameAndLayer(){
-        loadActivityIndicator.layer.shadowOpacity = Float(UIButton.Appearence().shadowOpacity)
-        loadActivityIndicator.layer.shadowOffset = UIButton.Appearence().shadowOffset
-        oneNewImageView.layer.cornerRadius = 10
-        oneNewView.layer.shadowOpacity = Float(UIButton.Appearence().shadowOpacity)
-        oneNewView.layer.shadowOffset = UIButton.Appearence().shadowOffset
-        seeMoreButton.layer.shadowOpacity = Float(UIButton.Appearence().shadowOpacity)
-        seeMoreButton.layer.shadowOffset = UIButton.Appearence().shadowOffset
+        loadActivityIndicator.layer.shadowOpacity = Float(UIButton.Appearance().shadowOpacity)
+        loadActivityIndicator.layer.shadowOffset = UIButton.Appearance().shadowOffset
+        oneNewImageView.layer.cornerRadius = UIButton.Appearance().cornerRadius
+        
+        oneNewView.layer.shadowOpacity = Float(UIButton.Appearance().shadowOpacity)
+        oneNewView.layer.shadowOffset = UIButton.Appearance().shadowOffset
+        seeMoreButton.layer.shadowOpacity = Float(UIButton.Appearance().shadowOpacity)
+        seeMoreButton.layer.shadowOffset = UIButton.Appearance().shadowOffset
     }
 }
 
 
 extension UIButton{
-    struct Appearence {
-        let shadowOpacity = 0.5
+   public struct Appearance {
+        let cornerRadius: CGFloat = 10
+        let shadowOpacity: Float = 0.5
         let shadowOffset = CGSize(width: 2, height: 2)
     }
 }

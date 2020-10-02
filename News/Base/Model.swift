@@ -42,27 +42,34 @@ private enum ParseKeys: String{
 //MARK: Parse class
 class Parse{
     
-    func loadNews(of value: Int, needFunc: String?, complitionHandler: @escaping (()->())){
+    func loadNews(of value: Int,
+                  needFunc: String?,
+                  complitionHandler: @escaping (()->())){
         guard let url = URL(string: NewsResource().urlStringArray[value]) else{return}
         print(url)
         let session = URLSession.shared
         session.downloadTask(with: url) { (data, response, error) in
-            let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]+"/data.json"
+            let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory,
+                                                           .userDomainMask,
+                                                           true)[0]+"/data.json"
             print(path)
             guard let data = data else{return}
             let urlPath = URL(fileURLWithPath: path)
-            try? FileManager.default.copyItem(at: data, to: urlPath)
+            try? FileManager.default.copyItem(at: data,
+                                              to: urlPath)
             self.parseNews()
             complitionHandler()
-            needFunc
         }.resume()
     }
     
-    func parseNews(){
-        let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]+"/data.json"
+    private func parseNews(){
+        let path = NSSearchPathForDirectoriesInDomains(.libraryDirectory,
+                                                       .userDomainMask,
+                                                       true)[0]+"/data.json"
         let url = URL(fileURLWithPath: path)
         guard let data = try? Data(contentsOf: url) else{return}
-        guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else{return}
+        guard let json = try? JSONSerialization.jsonObject(with: data,
+                                                           options: .allowFragments) as? [String: Any] else{return}
         guard let articlesJson = json[ParseKeys.articles.rawValue] as? [[String: Any]] else{return}
         var resultArray = [Articles]()
         for dict in articlesJson{
@@ -71,4 +78,16 @@ class Parse{
         }
         articles = resultArray
     }
+    
+    public func parseNews(date: String)->String{
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.dateStyle = .medium
+        let formatter2 = DateFormatter()
+        formatter2.locale = Locale(identifier: "en_US_POSIX")
+        formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        guard let dd = formatter2.date(from: date) else{return "00 00 00"}
+        return formatter.string(from: dd)
+    }
+
 }
